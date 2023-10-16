@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS "doctors";
+DROP TABLE IF EXISTS "services";
+DROP TABLE IF EXISTS "customers";
+DROP TABLE IF EXISTS "users";

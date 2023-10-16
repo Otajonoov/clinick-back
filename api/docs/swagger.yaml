@@ -1,0 +1,678 @@
+definitions:
+  models.AllDoctors:
+    properties:
+      doctors:
+        items:
+          $ref: '#/definitions/models.Doctor'
+        type: array
+    type: object
+  models.AllServices:
+    properties:
+      services:
+        items:
+          $ref: '#/definitions/models.Service'
+        type: array
+    type: object
+  models.CreateCustomer:
+    properties:
+      about:
+        type: string
+      fullname:
+        type: string
+      image_url:
+        type: string
+      stars:
+        type: string
+    required:
+    - about
+    - fullname
+    - image_url
+    - stars
+    type: object
+  models.CreateDoctor:
+    properties:
+      about:
+        type: string
+      fullname:
+        type: string
+      image_url:
+        type: string
+      type:
+        type: string
+    required:
+    - about
+    - fullname
+    - image_url
+    - type
+    type: object
+  models.CreateService:
+    properties:
+      about:
+        type: string
+      image_url:
+        type: string
+      service_name:
+        type: string
+    required:
+    - about
+    - image_url
+    - service_name
+    type: object
+  models.Customer:
+    properties:
+      about:
+        type: string
+      created_at:
+        type: string
+      fullname:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      stars:
+        type: string
+    type: object
+  models.CustomersResp:
+    properties:
+      count:
+        type: integer
+      customers:
+        items:
+          $ref: '#/definitions/models.Customer'
+        type: array
+    type: object
+  models.Doctor:
+    properties:
+      about:
+        type: string
+      fullname:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      type:
+        type: string
+    type: object
+  models.LoginReq:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  models.LoginRes:
+    properties:
+      token:
+        type: string
+      username:
+        type: string
+    required:
+    - username
+    type: object
+  models.ResponseError:
+    properties:
+      message:
+        type: string
+    type: object
+  models.ResponseOK:
+    properties:
+      message:
+        type: string
+    type: object
+  models.Service:
+    properties:
+      about:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      service_name:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Created by Otajonov Quvonchbek
+paths:
+  /v1/create-customer:
+    post:
+      consumes:
+      - application/json
+      description: This api can customer register
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCustomer'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: create customer
+      tags:
+      - Customer
+  /v1/create-doctor:
+    post:
+      consumes:
+      - application/json
+      description: This api can doctor register
+      parameters:
+      - description: Doctor
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateDoctor'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Doctor'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: create doctor
+      tags:
+      - Doctor
+  /v1/create-service:
+    post:
+      consumes:
+      - application/json
+      description: This api can service register
+      parameters:
+      - description: Service
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateService'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Service'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create service
+      tags:
+      - Service
+  /v1/create-user:
+    post:
+      consumes:
+      - application/json
+      description: This api can create new user
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LoginReq'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create user
+      tags:
+      - User
+  /v1/customerById-get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: This api can get Customer by id
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get Customer by id
+      tags:
+      - Customer
+  /v1/delete-customer/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api can customer doctor
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseOK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - BearerAuth: []
+      summary: Delete customer
+      tags:
+      - Customer
+  /v1/delete-doctor/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api can delete doctor
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseOK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - BearerAuth: []
+      summary: Delete doctor
+      tags:
+      - Doctor
+  /v1/delete-service/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api can delete service
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseOK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - BearerAuth: []
+      summary: Delete service
+      tags:
+      - Service
+  /v1/doctorById-get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: This api can get doctor by id
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Doctor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get doctor by id
+      tags:
+      - Doctor
+  /v1/file-upload:
+    post:
+      consumes:
+      - application/json
+      description: File upload
+      parameters:
+      - description: File
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      summary: File upload
+      tags:
+      - file-upload
+  /v1/get-customers:
+    get:
+      consumes:
+      - application/json
+      description: This api can get customers
+      parameters:
+      - default: 10
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - default: 1
+        in: query
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CustomersResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get customers
+      tags:
+      - Customer
+  /v1/get-doctors:
+    get:
+      consumes:
+      - application/json
+      description: This api can get doctors
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AllDoctors'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get doctors
+      tags:
+      - Doctor
+  /v1/get-services:
+    get:
+      consumes:
+      - application/json
+      description: This api can get services
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AllServices'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get services
+      tags:
+      - Service
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      description: This api can login
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LoginRes'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - User
+  /v1/serviceById-get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: This api can get service by id
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Service'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get service by id
+      tags:
+      - Service
+  /v1/update-customer/{id}:
+    post:
+      consumes:
+      - application/json
+      description: This api can update customer
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCustomer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - BearerAuth: []
+      summary: Delete customer
+      tags:
+      - Customer
+  /v1/update-doctor/{id}:
+    post:
+      consumes:
+      - application/json
+      description: This api can update doctor
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateDoctor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Doctor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - BearerAuth: []
+      summary: Delete doctor
+      tags:
+      - Doctor
+  /v1/update-service/{id}:
+    post:
+      consumes:
+      - application/json
+      description: This api can update service
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateService'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Service'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - BearerAuth: []
+      summary: Delete service
+      tags:
+      - Service
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
